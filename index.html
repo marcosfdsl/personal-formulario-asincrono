@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Asíncrono</title>
+</head>
+<body>
+    <h1>Formulario Asíncrono</h1>
+    <form id="myForm">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name">
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="message"></div>
+    
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+            
+            // Obtener el valor del campo de entrada
+            var name = document.getElementById("name").value;
+            
+            // Crear una instancia de XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+            
+            // Definir la función de callback que se ejecutará cuando la solicitud esté completa
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Actualizar el contenido de la página con el mensaje recibido del servidor
+                    document.getElementById("message").innerHTML = xhr.responseText;
+                }
+            };
+            
+            // Configurar la solicitud (GET) y la URL de destino
+            xhr.open("GET", "/saludo?name=" + name, true);
+            
+            // Enviar la solicitud al servidor
+            xhr.send();
+        });
+    </script>
+</body>
+</html>
